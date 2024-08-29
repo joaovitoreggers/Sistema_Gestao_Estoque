@@ -1,2 +1,29 @@
+# Ignorar o diretório ven/
 venv/
+
+# Ignorar o arquivo do banco de dados SQLite
 db.sqlite3
+
+# Outras entradas comuns em projetos Django
+
+# Diretórios de cache
+__pycache__/
+
+# Arquivos de migração do Django
+**/migrations/
+
+# Arquivos de configuração do ambiente
+.env/
+
+# Arquivos gerados pelo sistema operacional
+*.log
+*.pot
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.DS_Store
+
+# Diretórios de configurações locais
+.vscode/
+.idea/
