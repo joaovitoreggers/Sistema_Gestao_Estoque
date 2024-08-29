@@ -17,3 +17,28 @@ class SupplierListView(ListView):
             queryset = queryset.filter(name__icontains=name)
         return queryset
     
+class SupplierCreateView(CreateView):
+    model = models.Suppliers
+    form_class = forms.SupplierForm
+    template_name = 'supplier_create.html'
+    success_url = reverse_lazy('suppier_list')
+
+class SupplierDetailView(DetailView):
+    model = models.Suppliers
+    template_name = 'supplier_detail.html'
+    context_object_name = 'suppliers'
+
+class SupplierUpdateView(UpdateView):
+    model = models.Suppliers
+    template_name = 'supplier_update.html'
+    form_class = forms.SupplierForm
+    success_url = reverse_lazy('supplier_detail.html')
+    context_object_name = 'suppliers'
+
+class SupplierDeleteVIew(DeleteView):
+    model = models.Suppliers
+    template_name = 'supplier_delete.html'
+    success_url = reverse_lazy('sepplier_list.html')
+    context_object_name = 'suppliers'
+
+    
