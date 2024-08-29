@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+<div class="container mt-6">
+    <h3 class="display-4">Detalhes da Marca</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-titles">{{ brands.name }}</h3>
+            <p class="card-text">{{ brands.description }}</p>
+        </div>
+    </div>
+    <a href="{% url 'brand_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Marcas</a>
+</div>
+
+{% endblock %}
