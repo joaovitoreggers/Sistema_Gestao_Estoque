@@ -38,13 +38,13 @@
                         <td>{{ supplier.name }}</td>
                         <td>{{ supplier.description }}</td>
                         <td>
-                            <a href="{% url 'supplier_detail' brand.id %}" class="btn btn-info btn-sm">
+                            <a href="{% url 'supplier_detail' supplier.id %}" class="btn btn-info btn-sm">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a href="{% url 'supplier_update' brand.id %}" class="btn btn-warning btn-sm">
+                            <a href="{% url 'supplier_update' supplier.id %}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="{% url 'supplier_delete' brand.id %}" class="btn btn-danger btn-sm">
+                            <a href="{% url 'supplier_delete' supplier.id %}" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>

@@ -6,7 +6,7 @@ from . import models, forms
 class SupplierListView(ListView):
     model = models.Suppliers
     template_name = 'supplier_list.html'
-    context_object_name = 'brands'
+    context_object_name = 'suppliers'
     paginate_by = 10
 
     def get_queryset(self):
@@ -21,7 +21,8 @@ class SupplierCreateView(CreateView):
     model = models.Suppliers
     form_class = forms.SupplierForm
     template_name = 'supplier_create.html'
-    success_url = reverse_lazy('suppier_list')
+    success_url = reverse_lazy('supplier_list')
+    context_object_name = 'suppliers'
 
 class SupplierDetailView(DetailView):
     model = models.Suppliers
@@ -32,13 +33,13 @@ class SupplierUpdateView(UpdateView):
     model = models.Suppliers
     template_name = 'supplier_update.html'
     form_class = forms.SupplierForm
-    success_url = reverse_lazy('supplier_detail.html')
+    success_url = reverse_lazy('supplier_list')
     context_object_name = 'suppliers'
 
 class SupplierDeleteVIew(DeleteView):
     model = models.Suppliers
     template_name = 'supplier_delete.html'
-    success_url = reverse_lazy('sepplier_list.html')
+    success_url = reverse_lazy('supplier_list')
     context_object_name = 'suppliers'
 
     
