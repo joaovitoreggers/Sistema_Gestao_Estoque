@@ -38,12 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'phonenumber_field',
+
+
     'brands',
     'categories',
     'suppliers',
     'products',
     'inflows',
     'outflows',
+    'clients',
+    'employees',
+    'pyament_methods',
+    'raw_material',
+    'requests',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +136,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+PHONENUMBER_DEFAULT_REGION = 'BR'
+PHONENUMBER_DB_FORMAT = 'E164'
+PHONENUMBER_BLANK = False
+PHONENUMBER_NULL = False

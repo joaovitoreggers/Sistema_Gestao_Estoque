@@ -9,4 +9,7 @@ urlpatterns = [
     path('', include('inflows.urls')),
     path('', include('outflows.urls')),
     path('', include('products.urls')),
+    path('', include('clients.urls')),
+    path('', include('employees.urls')),
+    path('', include('requests.urls')),
 ]

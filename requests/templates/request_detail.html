@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+<div class="container mt-6">
+    <h3 class="display-4">Detalhes do Pedido</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-titles">{{ requests.name }}</h3>
+            <p class="card-text">{{ requests.description }}</p>
+        </div>
+    </div>
+    <a href="{% url 'request_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Pedidos</a>
+</div>
+
+{% endblock %}
