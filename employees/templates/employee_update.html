@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% block title %} Atualizar os dados do Funcionário {% endblock  %}
+
 
 <div class="container mt-4">
     <h3 class="display-4">Editar Funcionário</h3>
     <div class="card">
         <div class="card-body">
             <form method="post" class="form">
+
                 {% csrf_token %}
                 {{ form.as_p }}
+                
                 <button type="submit" class="btn btn-primary">Salvar Funcionário</button>
             </form>
         </div>

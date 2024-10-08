@@ -23,10 +23,12 @@ class CategoryCreateView(CreateView):
     form_class = forms.CategoryForm
     success_url = reverse_lazy('category_list')
 
+
 class CategoryDetail(DetailView):
     model = models.Category
     template_name = 'category_detail.html'
     context_object_name = 'categories'
+
 
 class CategorydUpdateView(UpdateView):
     model = models.Category
@@ -34,6 +36,7 @@ class CategorydUpdateView(UpdateView):
     form_class = forms.CategoryForm
     success_url = reverse_lazy('category_list')
     context_object_name = 'categories'
+
 
 class CategoryDeleteView(DeleteView):
     model = models.Category

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
-    SGP - Funcionários
 
 {% block content %}
+{% block title %} Listagem dos Funcionários {% endblock  %}
+
 
 <div class="row mb-3">
     <div class="col-md-6">
@@ -14,11 +15,13 @@
             </div>
         </form>
     </div>
+
     <div class="col-md-6">
         <a href="{% url 'employee_create' %}" class="btn btn-success float-end">
             <i class="bi bi-plus">Novo Funcionário</i>
         </a>
     </div>
+
 </div>
 
     <div class="table-responsive">
@@ -34,7 +37,9 @@
                 </tr>
             </thead>
                 <tbody>
+
                 {% for employee in employees %}
+
                     <tr>
                         <td>{{ employee.id }}</td>
                         <td>{{ employee.name }}</td>
@@ -45,18 +50,24 @@
                             <a href="{% url 'employee_detail' employee.id %}" class="btn btn-info btn-sm">
                                 <i class="bi bi-eye"></i>
                             </a>
+
                             <a href="{% url 'employee_update' employee.id %}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i>
                             </a>
+
                             <a href="{% url 'employee_delete' employee.id %}" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </a>
+
                         </td>
                     </tr>
+
                 {% endfor %}
+
                 </tbody>
         </table>
     </div>
+    
 {% include "components/_pagination.html" %} 
   
 {% endblock %}

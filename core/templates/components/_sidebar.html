@@ -7,42 +7,49 @@
         </button>
         <div class="collapse d-sm-block" id="menuCollapse">
           <ul class="nav flex-column align-items-start" id="menu">
+
             <li>
-              <a href="#" class="nav-link px-0 align-middle">
+              <a href="{% url 'home' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-speedometer2 fs-4"></i>
                 <span class="ms-1">Dashboard</span>
               </a>
             </li>
+
             <li>
-              <a href="{% url 'request_list' %}" class="nav-link px-0 align-middle">
-                <i class="bi bi-person-circle fs-4"></i>
-                <span class="ms-1">Pedidos</span>
+              <a href="{% url 'outflow_list' %}" class="nav-link px-0 align-middle">
+                <i class="bi bi-cart-plus fs-4"></i>
+                <span class="ms-1">Vendas</span>
               </a>
             </li>
+
               <li>
               <a href="{% url 'client_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-person-circle fs-4"></i>
                 <span class="ms-1">Clientes</span>
               </a>
             </li>
+
             <li>
               <a href="{% url 'employee_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-people-fill fs-4"></i>
                 <span class="ms-1">Funcionários</span>
               </a>
             </li>
+
             <li>
               <a href="{% url 'supplier_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-truck fs-4"></i>
                 <span class="ms-1">Fornecedores</span>
               </a>
             </li>
+
             <li>
               <a href="{% url 'brand_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-shop fs-4"></i>
                 <span class="ms-1">Marcas</span>
               </a>
             </li>
+
             <li>
               <a href="{% url 'category_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-tags fs-4"></i>
@@ -55,18 +62,14 @@
                 <span class="ms-1">Produtos</span>
               </a>
             </li>
+
             <li>
               <a href="{% url 'inflow_list' %}" class="nav-link px-0 align-middle">
                 <i class="bi bi-arrow-down-left-square fs-4"></i>
                 <span class="ms-1">Entradas</span>
               </a>
             </li>
-            <li>
-              <a href="{% url 'outflow_list' %}" class="nav-link px-0 align-middle">
-                <i class="bi bi-arrow-up-right-square fs-4"></i>
-                <span class="ms-1">Saídas</span>
-              </a>
-            </li>
+            
           </ul>
         </div>
         <hr>

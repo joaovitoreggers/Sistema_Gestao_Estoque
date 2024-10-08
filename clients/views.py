@@ -18,16 +18,19 @@ class ClientListView(ListView):
             queryset = queryset.filter(name__icontains=name)
         return queryset
     
+
 class ClientCreateView(CreateView):
     model = models.Client
     template_name = 'client_create.html'
     form_class = forms.ClientForm
     success_url = reverse_lazy('client_list')
 
+
 class ClientDetailView(DetailView):
     model = models.Client
     template_name = 'client_detail.html'
     context_object_name = 'clients'
+
 
 class ClientUpdateView(UpdateView):
     model = models.Client
@@ -35,6 +38,7 @@ class ClientUpdateView(UpdateView):
     form_class = forms.ClientForm
     success_url = reverse_lazy('client_list')
     context_object_name = 'clients'
+
 
 class ClientDeleteView(DeleteView):
     model = models.Client

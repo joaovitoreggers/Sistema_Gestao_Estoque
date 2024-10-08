@@ -1,18 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% block title %} Cadastrar Funcionário {% endblock  %}
+
 
 <div class="container mt-4">
     <h3 class="display-6">Cadastrar Funcionário</h3>
     <div class="card">
         <div class="card-body">
             <form method="post" class="form">
+
                 {% csrf_token %}
                 {{ form.as_p }}
+
                 <button type="submit" class="btn btn-primary">Salvar Funcionário</button>
             </form>
         </div>
     </div>
+    
     <a href="{% url 'employee_list' %}" class="btn btn-secondary mt-3">Canelar e Voltar para a Lista de Funcionários</a>
 </div>
 

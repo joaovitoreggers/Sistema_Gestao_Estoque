@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% block title %} Deletar Funcionário {% endblock  %}
   
+
 <div class="container mt-4">
     <h3 class="display-6">Deletar Funcionario</h3>
     <div class="card">
@@ -10,7 +12,9 @@
                 Tem certeza de que deseja excluir o Funcionário <strong>{{ employees.name }}?</strong>
             </p>
             <form method="post">
+
                 {% csrf_token %}
+                
                 <button type="submit" class="btn btn-danger mt-3">Deletar Funcionário</button:subimit>
             </form>
         </div>

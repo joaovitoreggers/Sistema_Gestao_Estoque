@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-    SGE - Fornecedores
+{% block title %} Listagem de Categorias {% endblock  %}
 
 {% block content %}
 
@@ -14,11 +14,13 @@
             </div>
         </form>
     </div>
+
     <div class="col-md-6">
         <a href="{% url 'category_create' %}" class="btn btn-success float-end">
             <i class="bi bi-plus">Novo Fornecedor</i>
         </a>
     </div>
+
 </div>
 
     <div class="table-responsive">
@@ -32,27 +34,36 @@
                 </tr>
             </thead>
                 <tbody>
+
                 {% for category in categories %}
+
                     <tr>
                         <td>{{ category.id }}</td>
                         <td>{{ category.name }}</td>
                         <td>{{ category.description }}</td>
                         <td>
+
                             <a href="{% url 'category_detail' category.id %}" class="btn btn-info btn-sm">
                                 <i class="bi bi-eye"></i>
                             </a>
+
                             <a href="{% url 'category_update' category.id %}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i>
                             </a>
+
                             <a href="{% url 'category_delete' category.id %}" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </a>
+
                         </td>
                     </tr>
+
                 {% endfor %}
+
                 </tbody>
         </table>
     </div>
+    
 {% include "components/_pagination.html" %} 
   
 {% endblock %}

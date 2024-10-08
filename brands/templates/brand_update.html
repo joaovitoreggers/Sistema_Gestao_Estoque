@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% block title %}Editar Marca {% endblock %}
+
+
 {% block content %}
 
 <div class="container mt-4">
@@ -7,12 +10,15 @@
     <div class="card">
         <div class="card-body">
             <form method="post" class="form">
+
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">Salvar Marcas</button>
+            
             </form>
         </div>
     </div>
+   
     <a href="{% url 'brand_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Marcas</a>
 </div>
 

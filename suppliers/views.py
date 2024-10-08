@@ -16,7 +16,8 @@ class SupplierListView(ListView):
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
-    
+
+
 class SupplierCreateView(CreateView):
     model = models.Suppliers
     form_class = forms.SupplierForm
@@ -24,10 +25,12 @@ class SupplierCreateView(CreateView):
     success_url = reverse_lazy('supplier_list')
     context_object_name = 'suppliers'
 
+
 class SupplierDetailView(DetailView):
     model = models.Suppliers
     template_name = 'supplier_detail.html'
     context_object_name = 'suppliers'
+
 
 class SupplierUpdateView(UpdateView):
     model = models.Suppliers
@@ -36,10 +39,9 @@ class SupplierUpdateView(UpdateView):
     success_url = reverse_lazy('supplier_list')
     context_object_name = 'suppliers'
 
+
 class SupplierDeleteVIew(DeleteView):
     model = models.Suppliers
     template_name = 'supplier_delete.html'
     success_url = reverse_lazy('supplier_list')
     context_object_name = 'suppliers'
-
-    

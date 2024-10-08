@@ -16,16 +16,19 @@ class EmployeeListView(ListView):
             queryset = queryset.filter(name__icontains=name)
         return queryset
     
+
 class EmployeeCreateView(CreateView):
     model = models.Employee
     template_name = 'employee_create.html'
     form_class = forms.EmployeeForm
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('employee_create')
+
 
 class EmployeeDetailView(DetailView):
     model = models.Employee
     template_name = 'employee_detail.html'
     context_object_name = 'employees'
+
 
 class EmployeeUpdateView(UpdateView):
     model = models.Employee
@@ -33,6 +36,7 @@ class EmployeeUpdateView(UpdateView):
     form_class = forms.EmployeeForm
     success_url = reverse_lazy('employee_list')
     context_object_name = 'employees'
+
 
 class EmployeeDeleteView(DeleteView):
     model = models.Employee

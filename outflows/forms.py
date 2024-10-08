@@ -1,29 +1,15 @@
 from django.core.exceptions import ValidationError
 from django import forms
-from . import models
+from .models import Outflow
 
 class OutflowForm(forms.ModelForm):
-    
     class Meta:
-        model = models.Outflow
-        fields = [ 'product', 'quantity', 'description']
-        widgets = {
-            'product': forms.Select(attrs={'class': 'form-control'}),
-            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
-        }
-        lables = {
-            'product': 'Produto',
-            'quantity': 'Quantidade',
-            'description': 'Descrição',
-        }
+        model = Outflow
+        fields = ['description', 'client', 'employee', 'value']
 
-        def clean_quantity(self):
-            quantity = self.cleaned_data.get("quantity")
-            product = self.cleaned_data.get("product")
-            
-            if quantity > product.quantity:
-                raise ValidationError(
-                    f'A quantidade em estoque para o produto { product.title } é de {product.quantity}'
-                )
-            return quantity
+        widgets = {
+            'client': forms.Select(attrs={'class': 'form-control'}),
+            'employee': forms.Select(attrs={'class': 'form-control'}),
+            'value': forms.NumberInput(attrs={'class': 'form-control', 'id': 'value-input', 'readonly': 'readonly'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
