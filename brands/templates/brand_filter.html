@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Filtro de Marcas{% endblock %}
+{% block content %}
+    <h2>Filtro de Marcas</h2>
+
+    <form method="get" action="{% url 'brand_filter' %}" class="mb-4">
+        <div class="form-group">
+            <label for="brands">Selecione uma Marca:</label>
+            <select name="brands" id="brands" class="form-control">
+                <option value="">-- Selecione --</option>
+                {% for brand in brands %}
+                    <option value="{{ brand.id }}" {% if selected_band and selected_band.id == brand.id %}selected{% endif %}>
+                        {{ brand.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <button type="submit" name="filter" value="purchase" class="btn btn-primary">Filtrar Vendas por Marcas</button>
+            <button type="submit" name="filter" value="service" class="btn btn-secondary">Filtrar Produtos por Marcas</button>
+        </div>
+    </form>
+
+    {% if selected_band %}
+        {% if filter_type == "purchase" %}
+            <h3>Histórico de Compras para {{ selected_band.name }}</h3>
+            {% if outflows %}
+                <table class="table table-striped mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Data</th>
+                            <th>Produto</th>
+                            <th>Cliente que Comprou</th>
+                            <th>Quantidade</th>
+                            <th>Valor do Produto</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for outflow in outflows %}
+                            {% for outflow_product in outflow.outflowproduct_set.all %}
+                            <tr>
+                                <td>{{ outflow.created_at|date:"d/m/Y H:i" }}</td>
+                                <td>{{ outflow_product.product.title }}</td>
+                                <td>{{ outflow.client }}</td>
+                                <td>{{ outflow_product.quantity }}</td>
+                                <td>R$ {{ outflow_product.product.selling_price|floatformat:2 }}</td>
+                                <td>R$ {{ outflow.total_value|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">Nenhum produto encontrado para esta Venda.</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Nenhuma compra registrada para esta Marca.</p>
+            {% endif %}
+        {% elif filter_type == "service" %}
+            <h3>Produtos na Marca {{ selected_band.name }}</h3>
+            {% if products %}
+                <table class="table table-striped mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Criado em</th>
+                            <th>Produto</th>
+                            <th>Descrição</th>
+                            <th>Quantidade em estoque</th>
+                            <th>Preço de Venda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.created_at }}</td>
+                                <td>{{ product.title }}</td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>R$ {{ product.selling_price|floatformat:2 }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">Nenhum produto encontrado nesta marca.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Nenhum produto registrado nesta Marca.</p>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>Por favor, selecione uma categoria para ver os resultados.</p>
+    {% endif %}
+    
+    {% include "components/_pagination.html" %}
+
+
+    <style>
+        /* Estilos adicionais para o formulário e tabelas */
+        h2 {
+            color: white; /* Cor escura para o título */
+            margin-bottom: 1rem; /* Margem inferior para espaçamento */
+        }
+
+        .form-control {
+            border-radius: 0.25rem; /* Bordas arredondadas para campos de entrada */
+            border: 1px solid #ced4da; /* Borda clara */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Cor do botão de filtrar compras */
+            border-color: #007bff; /* Borda do botão de filtrar compras */
+            margin-right: 0.5rem; /* Margem à direita */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cor ao passar o mouse */
+            border-color: #0056b3; /* Borda ao passar o mouse */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Cor do botão de filtrar serviços */
+            border-color: #6c757d; /* Borda do botão de filtrar serviços */
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Cor ao passar o mouse */
+            border-color: #5a6268; /* Borda ao passar o mouse */
+        }
+
+        .table {
+            background-color: #ffffff; /* Fundo branco para a tabela */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa; /* Fundo claro para linhas ímpares */
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #e2e6ea; /* Fundo um pouco mais escuro para linhas pares */
+        }
+
+        .thead-dark {
+            background-color: #343a40; /* Cor escura para o cabeçalho da tabela */
+            color: white; /* Texto branco no cabeçalho */
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #dee2e6; /* Borda clara para as células */
+        }
+
+        p {
+            color: white; /* Texto escuro para boa legibilidade */
+        }
+    </style>
+    
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} Dados da Prestação {% endblock %}
+{% block content %}
+
+<div class="container mt-6">
+    <h3 class="display-4">Detalhes da Prestação do Serviço</h3>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Serviços:</h3>
+            {% for outflow_service in service_provision.outflow_services.all %}
+                <h5 class="card-title">Nome: {{ outflow_service.service.name }}</h5>
+                <p class="card-text">Descrição: {{ outflow_service.service.description }}</p>
+                <p class="card-text">Valor: R$ {{ outflow_service.service.value }}</p>
+                <p class="card-text">Quantidade: {{ outflow_service.quantity }}</p>
+                <hr>
+            {% endfor %}
+            <p class="card-text">Valor Total: R$ {{ service_provision.value }}</p>
+        </div>
+    </div>
+    <a href="{% url 'service_provision_list' %}" class="btn btn-secondary mt-3">Voltar para a Lista de Prestação de Serviços</a>
+</div>
+
+{% endblock %}

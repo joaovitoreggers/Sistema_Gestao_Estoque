@@ -1,42 +1,40 @@
-<div class="card mt-4">
+<div class="card mt-4" style="background: linear-gradient(135deg, rgb(30, 30, 60) 100%, rgb(10, 10, 20) 40%); border-radius: 15px; color: white;">
     <div class="card-body">
         <div class="row">
-            
             <div class="col-md-3">
-                <div class="card bg-primary">
+                <div class="card bg-primary" style="border-radius: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title"> Quantidade de Vendas</h5>
+                        <h5 class="card-title">Quantidade de Vendas</h5>
                         <p class="card-text text-white font-weight-bold display-6">{{ sales_metrics.total_sales }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-danger">
+                <div class="card bg-danger" style="border-radius: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title"> Produtos Vendidos</h5>
+                        <h5 class="card-title">Produtos Vendidos</h5>
                         <p class="card-text text-white font-weight-bold display-6">{{ sales_metrics.total_products_sold }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-success">
+                <div class="card bg-success" style="border-radius: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title"> Valor total das Vendas</h5>
+                        <h5 class="card-title">Valor Total das Vendas</h5>
                         <p class="card-text text-white font-weight-bold display-6">R$ {{ sales_metrics.total_sales_value }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-warning">
+                <div class="card bg-warning" style="border-radius: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title"> Lucro total das Vendas</h5>
-                        <p class="card-text text-white font-weight-bold display-6">R$ {{sales_metrics.total_sales_profit}}</p>
+                        <h5 class="card-title">Lucro Total das Vendas</h5>
+                        <p class="card-text text-white font-weight-bold display-6">R$ {{ sales_metrics.total_sales_profit }}</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

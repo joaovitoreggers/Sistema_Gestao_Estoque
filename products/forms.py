@@ -16,13 +16,3 @@ class ProductForm(forms.ModelForm):
             'cost_price': forms.NumberInput(attrs={'class': 'form-control', }),
             'selling_price': forms.NumberInput(attrs={'class': 'form-control',}),
         }
-        lables = {
-            'title': 'Título',
-            'category': 'Categoria',
-            'quantity': 'Quantidade',
-            'brand': 'Marca',
-            'serie_number': 'Número de Série',
-            'cost_price': 'Custo de Compra',
-            'selling_price': 'Custo de Venda',
-            'description': 'Descrição',
-        }

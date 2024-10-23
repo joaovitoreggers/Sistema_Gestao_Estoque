@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Filtro de Clientes{% endblock %}
+{% block content %}
+    <h2>Filtro de Clientes</h2>
+    
+    <form method="get" action="{% url 'client_filter' %}" class="mb-4">
+        <div class="form-group">
+            <label for="client">Selecione um Cliente:</label>
+            <select name="client" id="client" class="form-control">
+                <option value="">-- Selecione --</option>
+                {% for client in clients %}
+                    <option value="{{ client.id }}" {% if selected_client and selected_client.id == client.id %}selected{% endif %}>
+                        {{ client.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <button type="submit" name="filter" value="purchase" class="btn btn-primary">Filtrar Compras</button>
+            <button type="submit" name="filter" value="service" class="btn btn-secondary">Filtrar Serviços</button>
+        </div>
+    </form>
+
+    {% if selected_client %}
+        {% if filter_type == "purchase" %}
+            <h3>Histórico de Compras para {{ selected_client.name }}</h3>
+            {% if outflows %}
+                <table class="table table-striped mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Data</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor do produto</th>
+                            <th>Valor total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for outflow in outflows %}
+                            {% for product in outflow.product.all %}
+                                <tr>
+                                    <td>{{ outflow.created_at|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ product.title }}</td>  <!-- Supondo que o título do produto está em 'title' -->
+                                    <td>{{ outflow.quantity }}</td>  <!-- Quantidade da venda -->
+                                    <td>R$ {{ product.selling_price|floatformat:2 }}</td>  <!-- Valor total da venda -->
+                                    <td>R$ {{ outflow.total_value|floatformat:2 }}</td>  <!-- Valor total da venda -->
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Nenhuma compra registrada para este cliente.</p>
+            {% endif %}
+        {% elif filter_type == "service" %}
+            <h3>Serviços Contratados para {{ selected_client.name }}</h3>
+            {% if service_provisions %}
+                <table class="table table-striped mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Data</th>
+                            <th>Serviço e Quantidade</th>  <!-- Atualizado para refletir a combinação -->
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for provision in service_provisions %}
+                            {% for service in provision.services.all %}
+                            {% for services_quantity in provision.outflow_services.all %}
+                                <tr>
+                                    <td>{{ provision.created_at|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ service.name }} : {{ services_quantity.quantity }}</td>  
+                                    
+                                    <td>R$ {{ provision.value|floatformat:2 }}</td>  <!-- Valor total do serviço -->
+                                </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Nenhum serviço registrado para este cliente.</p>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>Por favor, selecione um cliente para ver os resultados.</p>
+    {% endif %}
+    
+    <style>
+        /* Estilos adicionais para o formulário e tabelas */
+        h2 {
+            color: white; /* Cor escura para o título */
+            margin-bottom: 1rem; /* Margem inferior para espaçamento */
+        }
+
+        .form-control {
+            border-radius: 0.25rem; /* Bordas arredondadas para campos de entrada */
+            border: 1px solid #ced4da; /* Borda clara */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Cor do botão de filtrar compras */
+            border-color: #007bff; /* Borda do botão de filtrar compras */
+            margin-right: 0.5rem; /* Margem à direita */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cor ao passar o mouse */
+            border-color: #0056b3; /* Borda ao passar o mouse */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Cor do botão de filtrar serviços */
+            border-color: #6c757d; /* Borda do botão de filtrar serviços */
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Cor ao passar o mouse */
+            border-color: #5a6268; /* Borda ao passar o mouse */
+        }
+
+        .table {
+            background-color: #ffffff; /* Fundo branco para a tabela */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa; /* Fundo claro para linhas ímpares */
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #e2e6ea; /* Fundo um pouco mais escuro para linhas pares */
+        }
+
+        .thead-dark {
+            background-color: #343a40; /* Cor escura para o cabeçalho da tabela */
+            color: white; /* Texto branco no cabeçalho */
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #dee2e6; /* Borda clara para as células */
+        }
+
+        p {
+            color: white; /* Texto escuro para boa legibilidade */
+        }
+    </style>
+{% endblock %}

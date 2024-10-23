@@ -6,6 +6,9 @@ urlpatterns = [
     path("categories/create/", views.CategoryCreateView.as_view(), name="category_create"),
     path("categories/<int:pk>/detail/", views.CategoryDetail.as_view(), name="category_detail"),
     path("categories/<int:pk>/update/", views.CategorydUpdateView.as_view(), name="category_update"),
-    path("categories/<int:pk>/delete/", views.CategoryDeleteView.as_view(), name="category_delete")
+    path("categories/<int:pk>/delete/", views.CategoryDeleteView.as_view(), name="category_delete"),
+    
+    path("categories/history/", views.CategoryFilterView.as_view(), name="category_filter"),
+
 
 ]

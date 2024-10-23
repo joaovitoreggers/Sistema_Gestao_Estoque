@@ -3,142 +3,164 @@
     SGP - HOME
 {% endblock %}
 
-
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-{% include "components/_sales_metrics.html" %}
-{% include "components/_product_metrics.html" %}
+{% if perms.outflows.view_outflow %}
+  {% include "components/_sales_metrics.html" %}
+{% endif %}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% if perms.products.view_product and perms.inflows.view_inflow %}
+  {% include "components/_product_metrics.html" %}
+{% endif %}
 
-    <div class="row mt-4 justfy-content-center">
-
-        <div class="col-md-6 text-center">
-            <h5 class="text-center mb-3">Valor de Vendas (Últimos 7 dias)</h5>
-            <canvas id="dailySalesChart"></canvas>
+{% if perms.products.view_product %}
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-12 text-center mb-3">
+        <!-- Botões para selecionar o período -->
+        <div class="btn-group" role="group" aria-label="Períodos de Métricas">
+            <a href="?period=7" class="btn btn-outline-primary {% if current_period == 7 %}active{% endif %}">Última Semana</a>
+            <a href="?period=14" class="btn btn-outline-primary {% if current_period == 14 %}active{% endif %}">Últimos 14 dias</a>
+            <a href="?period=30" class="btn btn-outline-primary {% if current_period == 30 %}active{% endif %}">Último Mês</a>
+            <a href="?period=90" class="btn btn-outline-primary {% if current_period == 90 %}active{% endif %}">Último Trimestre</a>
+            <a href="?period=180" class="btn btn-outline-primary {% if current_period == 180 %}active{% endif %}">Últimos Semestre</a>
+            <a href="?period=365" class="btn btn-outline-primary {% if current_period == 365 %}active{% endif %}">Último Ano</a>
         </div>
+    </div>
+  </div>
 
-        <div class="col-md-6 text-center">
-            <h5 class="text-center mb-3">Saídas de Produtos (Últimos 7 dias)</h5>
-            <canvas id="dailySalesQuantityChart"></canvas>
-        </div>
-        
-        <script>
-
-            document.addEventListener('DOMContentLoaded', function () {
-                let dailySalesData = JSON.parse('{{ daily_sales_data|safe }}');
-                let dailySalesQuantityData = JSON.parse('{{ daily_sales_quantity_data|safe }}');
-        
-                let ctxDailySales = document.getElementById('dailySalesChart').getContext('2d');
-                let dailySalesChart = new Chart(ctxDailySales, { 
-                    type: 'line',
-                    data: {
-                        labels: dailySalesData.dates,
-                        datasets: [{
-                            label: 'Valor em Vendas',
-                            data: dailySalesData.values,
-                            fill: false,
-                            borderColor: 'rgba(54, 162, 255, 1)',
-                            borderWidth: 2,
-                            tension: 0.5
-                        }]
-                    },  
-                    options: {  
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-        
-                let ctxDailySalesQuantity = document.getElementById('dailySalesQuantityChart').getContext('2d');
-                let dailySalesQuantityChart = new Chart(ctxDailySalesQuantity, {  
-                    type: 'bar',
-                    data: {
-                        labels: dailySalesQuantityData.dates,
-                        datasets: [{
-                            label: 'Quantidade de Vendas',
-                            data: dailySalesQuantityData.values,
-                            backgroundColor: 'rgba(255, 99, 132, 1)',  // Correção aqui
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {  
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            });
-        </script>
-        
-    </div>    
-    <div class="row mt-4 justfy-content-center">
-        <div class="col-md-6 text-center">
-            <h5 class="mb-3">Produtos Por Categoria</h5>
-            <div class="mb-4"></div>
-            <div class="embed-responsive embed-responsive1by1" style="width: 400px; display: inline-block;">
-                <canvas id="productByCategoryChart" class="embed-responsive-item"></canvas>
-            </div>
-        </div>
-
-        <div class="col-md-6 text-center">
-            <h5 class="mb-3">Produtos Por Marca</h5>
-            <div class="mb-4"></div>
-            <div style="width: 400px; display: inline-block;">
-                <canvas id="productByBrandChart" class="embed-responsive-item"></canvas>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {  
-              let productCountByCategory = JSON.parse('{{ product_count_by_category|safe }}');
-              let productCountByBrand = JSON.parse('{{ product_count_by_brand|safe }}');
-        
-              let ctxCategory = document.getElementById('productByCategoryChart').getContext('2d');
-              let productByCategoryChart = new Chart(ctxCategory, {
-                type: 'doughnut',
-                data: {
-                  labels: Object.keys(productCountByCategory),
-                  datasets: [{
-                    data: Object.values(productCountByCategory),
-                    borderWidth: 1
-                  }]
-                },
-                options: {
-                  plugins: {
-                    legend: {
-                      display: false
-                    },
-                  }
-                }
-              });
-        
-              let ctxBrand = document.getElementById('productByBrandChart').getContext('2d');
-              let productByBrandChart = new Chart(ctxBrand, {
-                type: 'doughnut',
-                data: {
-                  labels: Object.keys(productCountByBrand),
-                  datasets: [{
-                    data: Object.values(productCountByBrand),
-                    borderWidth: 1
-                  }]
-                },
-                options: {
-                  plugins: {
-                    legend: {
-                      display: false
-                    },
-                  }
-                }
-              });
-            });
-          </script>
-          
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-6 text-center">
+        <h5 class="text-center mb-3">Valor de Vendas (Últimos {{ current_period }} dias)</h5>
+        <canvas id="dailySalesChart"></canvas>
+        <!-- Exibindo o valor total de vendas -->
+        <h3>Total: R$ {{ total_sales_value|floatformat:2 }}</h3>
     </div>
 
+    <div class="col-md-6 text-center">
+        <h5 class="text-center mb-3">Saídas de Produtos (Últimos {{ current_period }} dias)</h5>
+        <canvas id="dailySalesQuantityChart"></canvas>
+        <!-- Exibindo o número total de vendas -->
+        <h3>Total de Produtos Vendidos: {{ total_sales_quantity }}</h3>
+    </div>
+  </div>
 
+  <!-- Scripts de Gráficos -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let dailySalesData = JSON.parse('{{ daily_sales_data|safe }}');
+        let dailySalesQuantityData = JSON.parse('{{ daily_sales_quantity_data|safe }}');
+
+        let ctxDailySales = document.getElementById('dailySalesChart').getContext('2d');
+        let dailySalesChart = new Chart(ctxDailySales, { 
+            type: 'line',
+            data: {
+                labels: dailySalesData.dates,
+                datasets: [{
+                    label: 'Valor em Vendas',
+                    data: dailySalesData.values,
+                    fill: false,
+                    borderColor: 'rgba(54, 162, 255, 1)',
+                    borderWidth: 2,
+                    tension: 0.5
+                }]
+            },  
+            options: {  
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        let ctxDailySalesQuantity = document.getElementById('dailySalesQuantityChart').getContext('2d');
+        let dailySalesQuantityChart = new Chart(ctxDailySalesQuantity, {  
+            type: 'bar',
+            data: {
+                labels: dailySalesQuantityData.dates,
+                datasets: [{
+                    label: 'Quantidade de Vendas',
+                    data: dailySalesQuantityData.values,
+                    backgroundColor: 'rgba(255, 99, 132, 1)',  
+                    borderWidth: 1
+                }]
+            },
+            options: {  
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    {% endif %}
+  </script>
+  {% if perms.products.view_product %}
+  <div class="row mt-5 justify-content-center">
+    <div class="col-md-6 text-center">
+      {% if product_count_by_category != '{}' %}
+        <h5 class="mb-3">Produtos por Categoria</h5>
+        <div class="mb-4"></div>
+        <div class="embed-responsive embed-responsive-1by1" style="width: 400px; display: inline-block;">
+          <canvas id="productByCategoryChart" class="embed-responsive-item"></canvas>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-md-6 text-center">
+      {% if product_count_by_category != '{}' %}
+        <h5 class="mb-3">Produtos por Marca</h5>
+        <div class="mb-4"></div>
+        <div style="width: 400px; display: inline-block;">
+          <canvas id="productByBrandChart" class="embed-responsive-item"></canvas>
+        </div>
+      {% endif %}
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {  
+        var productCountByCategory = JSON.parse('{{ product_count_by_category|safe }}');
+        var productCountByBrand = JSON.parse('{{ product_count_by_brand|safe }}');
+  
+        var ctxCategory = document.getElementById('productByCategoryChart').getContext('2d');
+        var productByCategoryChart = new Chart(ctxCategory, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(productCountByCategory),
+            datasets: [{
+              data: Object.values(productCountByCategory),
+              borderWidth: 1
+            }]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              },
+            }
+          }
+        });
+  
+        var ctxBrand = document.getElementById('productByBrandChart').getContext('2d');
+        var productByBrandChart = new Chart(ctxBrand, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(productCountByBrand),
+            datasets: [{
+              data: Object.values(productCountByBrand),
+              borderWidth: 1
+            }]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              },
+            }
+          }
+        });
+      });
+    </script>
+  </div>
+{% endif %}
 {% endblock %}

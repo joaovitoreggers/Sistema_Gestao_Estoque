@@ -1,8 +1,18 @@
 from django.db import models
 from brands.models import Brand
 from categories.models import Category
+from companies.models import Company
 
 class Product(models.Model):
+
+    company = models.ForeignKey(
+        Company, 
+        on_delete=models.CASCADE, 
+        related_name='products',
+        verbose_name='Compania',
+        null=True,
+        blank=True
+    )
     title = models.CharField(
         max_length=500, 
         verbose_name='Título'

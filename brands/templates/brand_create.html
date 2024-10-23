@@ -2,22 +2,51 @@
 {% block title %}Cadastrar Marca {% endblock %}
 
 {% block content %}
-
 <div class="container mt-4">
-    <h3 class="display-6">Cadastrar Marca</h3>
-    <div class="card">
+    <h3 class="display-6 text-white">Cadastrar Marca</h3>
+    <div class="card" style="background: linear-gradient(135deg, rgb(60, 60, 70) 100%, rgb(60, 50, 40) 80%); border-radius: 15px; color: white;">
         <div class="card-body">
             <form method="post" class="form">
-                
                 {% csrf_token %}
                 {{ form.as_p }}
-
-                <button type="submit" class="btn btn-primary">Salvar Marca</button>
+                <button type="submit" class="btn btn-primary" style="border-radius: 10px;">Salvar Marca</button>
             </form>
         </div>
     </div>
     
-    <a href="{% url 'brand_list' %}" class="btn btn-secondary mt-3">Canelar e Voltar para a Lista de Marcas</a>
+    <a href="{% url 'brand_list' %}" class="btn btn-secondary mt-3" style="border-radius: 10px;">Cancelar e Voltar para a Lista de Marcas</a>
 </div>
+
+<style>
+    /* Estilos adicionais para manter a identidade visual */
+    h3.display-6 {
+        color: white; /* Cor do título */
+    }
+    
+    .btn-primary {
+        background-color: #007bff; /* Cor primária do botão salvar */
+        border-color: #007bff; /* Borda do botão salvar */
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Cor do botão cancelar */
+        border-color: #6c757d; /* Borda do botão cancelar */
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Cor do botão cancelar ao passar o mouse */
+        border-color: #545b62; /* Borda do botão cancelar ao passar o mouse */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Cor do botão salvar ao passar o mouse */
+        border-color: #004085; /* Borda do botão salvar ao passar o mouse */
+    }
+
+    /* Ajustes gerais de botão */
+    .btn {
+        border-radius: 10px; /* Bordas arredondadas para todos os botões */
+    }
+</style>
 
 {% endblock %}

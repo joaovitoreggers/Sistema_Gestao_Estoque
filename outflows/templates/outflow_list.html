@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-
+{% block title %} SGI - Vendas {% endblock %}
 {% block content %}
-{% block title %} Listagem das Vendas {% endblock %}
 
-{% include "components/_sales_metrics.html" %}
+{% if perms.outflows.view_outflow %}
+    {% include "components/_sales_metrics.html" %}
+{% endif %}
 <div class="mb-4"></div>
 <div class="row mb-3">
     <div class="col-md-6">
@@ -50,12 +51,82 @@
                 <td>{{ outflow.quantity }}</td>
                 <td>{{ outflow.created_at }}</td>
                 <td>
+
+                    {% if perms.outflows.change_outflow %}
+                        <a href="{% url 'outflow_detail' outflow.id %}" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 </div>
+
+<style>
+    /* Estilos adicionais para a tabela e identidade visual */
+    .table {
+        background-color: #ffffff; /* Fundo branco para a tabela */
+        color: #212529; /* Texto escuro para boa legibilidade */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa; /* Fundo claro para linhas ímpares */
+    }
+
+    .thead-dark {
+        background-color: #343a40; /* Cor escura para o cabeçalho da tabela */
+        color: white; /* Texto branco no cabeçalho */
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle; /* Centraliza o conteúdo verticalmente */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Cor primária do botão de busca */
+        border-color: #007bff; /* Borda do botão de busca */
+    }
+
+    .btn-success {
+        background-color: #28a745; /* Cor do botão para nova marca */
+        border-color: #28a745; /* Borda do botão para nova marca */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Cor do botão de detalhes */
+        border-color: #17a2b8; /* Borda do botão de detalhes */
+    }
+
+    .btn-warning {
+        background-color: #ffc107; /* Cor do botão de editar */
+        border-color: #ffc107; /* Borda do botão de editar */
+    }
+
+    .btn-danger {
+        background-color: #dc3545; /* Cor do botão de excluir */
+        border-color: #dc3545; /* Borda do botão de excluir */
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem; /* Tamanho reduzido para os botões */
+    }
+
+    /* Melhorando a visibilidade das bordas da tabela */
+    .table-bordered {
+        border: 1px solid #dee2e6; /* Borda padrão */
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6; /* Borda clara para as células */
+    }
+</style>
+
 
 {% include "components/_pagination.html" %} 
 

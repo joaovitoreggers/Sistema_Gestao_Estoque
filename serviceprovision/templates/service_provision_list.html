@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %} SGI - Serviços {% endblock %}
+{% block content %}
+
+<div class="mb-4"></div>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form action="{% url 'service_provision_list' %}" method="get">
+            <div class="input-group">
+                <input type="text" class="form-control" name="service" placeholder="Serviço" value="{{ request.GET.service }}">
+                <button type="submit" class="btn btn-primary">
+                   <i class="bi bi-search"></i> 
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <a href="{% url 'service_provision_create' %}" class="btn btn-success float-end">
+            <i class="bi bi-plus"></i> Nova Prestação de Serviço
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Serviços</th>
+                <th>Valor Total</th>
+                <th>Quantidade de Serviços</th>
+                <th>Data da Prestação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service_provision in service_provision %}
+                <tr>
+                    <td>{{ service_provision.id }}</td>
+                    <td>{{ service_provision.client }}</td>
+                    <td>
+                    {% for outflow_service in service_provision.outflow_services.all %}
+                        {{ outflow_service.service.name }} - Quantidade: {{ outflow_service.quantity }}<br>
+                    {% endfor %}
+                    </td>
+                        <td>R$ {{ service_provision.value|floatformat:2 }}</td>
+                    <td>
+                        {{ service_provision.outflow_services.count }} <!-- Contagem de serviços -->
+                    </td>
+                    <td>{{ service_provision.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                    {% if perms.services.change_service %}
+                        <a href="{% url 'service_provision_detail' service_provision.id %}" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Estilos adicionais para a tabela e identidade visual */
+    .table {
+        background-color: #ffffff; /* Fundo branco para a tabela */
+        color: #212529; /* Texto escuro para boa legibilidade */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa; /* Fundo claro para linhas ímpares */
+    }
+
+    .thead-dark {
+        background-color: #343a40; /* Cor escura para o cabeçalho da tabela */
+        color: white; /* Texto branco no cabeçalho */
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle; /* Centraliza o conteúdo verticalmente */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .btn-primary, .btn-success, .btn-info {
+        padding: 0.5rem 1rem; /* Tamanho padrão para botões */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Cor primária do botão de busca */
+        border-color: #007bff; /* Borda do botão de busca */
+    }
+
+    .btn-success {
+        background-color: #28a745; /* Cor do botão para nova marca */
+        border-color: #28a745; /* Borda do botão para nova marca */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Cor do botão de detalhes */
+        border-color: #17a2b8; /* Borda do botão de detalhes */
+    }
+
+    /* Melhorando a visibilidade das bordas da tabela */
+    .table-bordered {
+        border: 1px solid #dee2e6; /* Borda padrão */
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6; /* Borda clara para as células */
+    }
+</style>
+
+{% include "components/_pagination.html" %} 
+
+{% endblock %}

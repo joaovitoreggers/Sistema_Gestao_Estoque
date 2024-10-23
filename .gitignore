@@ -1,6 +1,8 @@
 # Ignorar o diretório ven/
 venv/
 
+data/db/
+
 # Ignorar o arquivo do banco de dados SQLite
 db.sqlite3
 

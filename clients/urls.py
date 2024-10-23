@@ -6,5 +6,6 @@ urlpatterns = [
     path('clients/create/', views.ClientCreateView.as_view(), name='client_create'),
     path('clients/<int:pk>/detail/', views.ClientDetailView.as_view(), name='client_detail'),
     path('clients/<int:pk>/update/', views.ClientUpdateView.as_view(), name='client_update'),
-    path("clients/<int:pk>/delete/", views.ClientDeleteView.as_view(), name="client_delete")
+    path("clients/<int:pk>/delete/", views.ClientDeleteView.as_view(), name="client_delete"),
+    path('clients/history/', views.ClientFilterView.as_view(), name='client_filter')
 ]

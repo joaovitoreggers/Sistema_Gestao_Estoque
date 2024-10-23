@@ -1,16 +1,26 @@
 from django.db import models
+from companies.models import Company
 from products.models import Product
-from pyament_methods.models import Payament_method
+from pyament_methods.models import Payment
 from clients.models import Client
 from employees.models import Employee
 
 class Outflow(models.Model):
+
+    company = models.ForeignKey(
+        Company, 
+        on_delete=models.CASCADE, 
+        related_name='outflows',
+        verbose_name='Compania',
+        null=True,
+        blank=True
+    )
     product = models.ManyToManyField(
         Product,
         verbose_name='Produto'
         )
     payament_method = models.ForeignKey(
-        Payament_method, 
+        Payment,
         on_delete=models.PROTECT, 
         related_name='command', 
         verbose_name='Método de Pagamento',
@@ -69,11 +79,25 @@ class Outflow(models.Model):
     def __str__(self):
         return f'{self.id} - {self.client} - {self.created_at}' 
     
+    def total_value(self):
+        total = 0
+        for outflow_product in self.outflowproduct_set.all():
+            total += outflow_product.product.selling_price * outflow_product.quantity
+        return total
+    
 
 class OutflowProduct(models.Model):
-    outflow = models.ForeignKey(Outflow, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)  # Quantidade do produto na saída
+    outflow = models.ForeignKey(
+        Outflow, 
+        on_delete=models.CASCADE
+        )
+    product = models.ForeignKey(
+        Product, 
+        on_delete=models.CASCADE
+        )
+    quantity = models.PositiveIntegerField(
+        default=1
+        ) 
 
     def __str__(self):
         return f'{self.product.title} - {self.quantity}'

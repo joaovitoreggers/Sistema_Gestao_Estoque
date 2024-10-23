@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ta!70dum=(1p8j*-amg-z1ix=i5#((0j5tfo*+h4ivt7k^a@u&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0:8000', '*']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'brands',
     'categories',
     'suppliers',
@@ -47,12 +49,15 @@ INSTALLED_APPS = [
     'clients',
     'employees',
     'pyament_methods',
-    'raw_material',
+    'services',
+    'serviceprovision',
+    'companies',
 ]
 
 LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 
 
@@ -92,8 +97,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -144,3 +153,5 @@ PHONENUMBER_DEFAULT_REGION = 'BR'
 PHONENUMBER_DB_FORMAT = 'E164'
 PHONENUMBER_BLANK = False
 PHONENUMBER_NULL = False
+
+APPEND_SLASH=False

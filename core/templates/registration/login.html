@@ -1,87 +1,288 @@
-{% extends 'base.html' %}
-
-{% block title %}Login{% endblock %}
+{% extends "base.html" %}
+{% block body_class %}login-page{% endblock %}
+{% block title %}Login{% endblock  %}
+{% block header %}{% endblock %}
 
 {% block content %}
 
-<style>
 
-    body {
-        background: linear-gradient(to bottom, #1b1b28, #0d0d14); /* Gradiente de azul escuro para preto */
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-    
-    
-      .card {
-        background: linear-gradient(to top, #282a36, #44475);
-        border: none;
-      }
-    
+<div class="login-container">
+  <div class="left-panel">
+      <h1> Sistema de Gestão Integrado (SGI)</h1>  
+      <h5>By JoLan Softwares</h5>
+      
+      <h4>JoLan Softwares. 
+          Soluções em sistemas de gestão para empresas,
+          comércios e prestadores de serviços.
+          Quer automatizar a parte
+          burocrática da sua vida?</h4>
+          <h4 class="h4-2">Fale com a gente!</h4> 
+          <br>
+          <br> 
+          <div class="social-icons">
+              <a href="api.html" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+          </div> 
+          <nav>
+              <a href="http://">Sobre nós</a>
+              <a href="http://">| &nbsp Produtos</a>
+          </nav>
+  </div>
+  <div class="right-panel">
+      <div class="login-form">
+          <h1>Olá, <span>Bem vindo de Volta!</span></h1>
+          <form id="loginForm" method="post">
+            {% csrf_token %}
+            {{ form.username }} 
+            {{ form.password }}
+            <button type="submit" class="btn login">Login</button>
+        </form>
 
-  .form-control {
-    background-color: #fff; /* Campos destacados em branco */
-    border: 1px solid #ced4da;
-  }
+          {% if form.errors %}
 
-</style>
+          <div class="alert alert-danger mt-4">
+            <ul class="mb-0">
 
-<div class="main-content">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title text-center mb-4 text-white-bold">Login</h3>
-            <form method="post">
+              {% for field in form %}
+                {% for error in field.errors %}
 
-              {% csrf_token %}
+                  <li>{{ error }}</li>
 
-              <div class="mb-3">
-                <label for="username" class="form-label text-white">Usuário</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-              </div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
 
-              <div class="mb-3">
-                <label for="password" class="form-label text-white">Senha</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-              </div>
+                <li>{{ error }}</li>
 
-              <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Entrar</button>
-              </div>
-
-            </form>
-
-            {% if form.errors %}
-
-              <div class="alert alert-danger mt-4">
-                <ul class="mb-0">
-
-                  {% for field in form %}
-                    {% for error in field.errors %}
-
-                      <li>{{ error }}</li>
-
-                    {% endfor %}
-                  {% endfor %}
-                  {% for error in form.non_field_errors %}
-
-                    <li>{{ error }}</li>
-
-                  {% endfor %}
-                </ul>
-              </div>
-
-            {% endif %}
-
+              {% endfor %}
+            </ul>
           </div>
-        </div>
+
+        {% endif %}
+        {% block footer %} {% endblock %}
       </div>
-    </div>
   </div>
 </div>
 
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login-page .container-fluid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-page .col {
+  max-width: 900px; 
+  margin: auto;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, 
+    rgb(10, 10, 15), 
+    rgb(13, 10, 18), 
+    rgb(1, 6, 16), 
+    rgb(5, 15, 23), 
+    rgb(0, 7, 16));
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    width: 900px;
+    height: 600px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.left-panel {
+    width: 50%;
+    background: linear-gradient(135deg, rgb(30, 30, 60) 100%, rgb(10, 10, 20) 40%);
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center; 
+    padding: 40px; 
+    text-align: center; 
+}
+
+.left-panel h1, .left-panel h5 {
+    background: linear-gradient(90deg, 
+        #ff7f50, /* Coral */
+        #ff4500, /* Orange Red */
+        #9400d3, /* Dark Violet */
+        #4169e1, /* Royal Blue */
+        #00fa9a /* Medium Spring Green */
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: colorCycle 9s linear infinite; /* Ciclo contínuo */
+}
+
+@keyframes colorCycle {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 300% 50%; /* Faz a rotação completa das cores */
+    }
+}
+
+
+.left-panel h1 {
+    top: -15%;
+    font-size: 35px;
+    margin-bottom: 3px;
+    position: relative;
+}
+
+.left-panel h5 {
+    position: relative;
+    top: -15%;
+    font-size: 22px;
+    margin-bottom: 50px;
+}
+
+
+.left-panel h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6; 
+    color: rgb(200, 200, 220); 
+    max-width: 95%; 
+}
+
+.left-painel h4-2 {
+    font-weight: 900;
+}
+
+nav {
+    position: absolute;
+    bottom: 70px; 
+    left: 455px;
+    right: 0;
+    text-align: center;
+}
+
+nav a {
+    color: #80939f;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 3px; 
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #00fa9a; 
+}
+
+
+
+.right-panel {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(15, 15, 30); 
+}
+
+h1 {
+    color: rgb(255, 255, 255); 
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600; 
+}
+
+.login-form h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.login-form h1 span {
+    color: rgb(100, 160, 255); 
+}
+
+.login-form input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 2px solid rgb(80, 130, 180);
+    background-color: rgb(20, 20, 40); 
+    color: rgb(255, 255, 255);
+}
+
+.login-form input::placeholder {
+    color: rgb(180, 180, 200); 
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn.login {
+    background-color: rgb(150, 60, 180); 
+    color: #fff;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+}
+
+.social-icons a {
+    text-decoration: none;
+    font-size: 32px; 
+    transition: transform 0.3s ease; 
+}
+
+.social-icons a i {
+    transition: color 0.3s ease; /* Transição de cor ao passar o mouse */
+}
+
+.social-icons a.whatsapp i {
+    color: #25D366; /* Cor do WhatsApp */
+}
+
+.social-icons a.facebook i {
+    color: #1877F2; /* Cor do Facebook */
+}
+
+.social-icons a.instagram i {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Efeito de gradiente do Instagram */
+}
+
+.social-icons a:hover  {
+    transform: scale(1.2); /* Efeito de zoom ao passar o mouse */
+}
+
+.social-icons a:active  {
+    transform: scale(1.1); /* Efeito leve ao clicar */
+}
+
+</style>
 {% endblock %}
