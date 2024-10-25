@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'outflows',
     'clients',
     'employees',
-    'pyament_methods',
+   # 'pyament_methods',
     'services',
     'serviceprovision',
     'companies',
@@ -155,3 +155,8 @@ PHONENUMBER_BLANK = False
 PHONENUMBER_NULL = False
 
 APPEND_SLASH=False
+
+
+# settings.py
+STRIPE_SECRET_KEY = "sk_test_51Q84WcGCcu8ObJFYddt3hcdCpMaCNVNfIwKucxqW0Z0NGoOagsSMYqcHAxNaejH7gCzHje4VTk9pFrNm0viXg8lz00xc7YTHV3"
+STRIPE_PUBLISHABLE_KEY = "pk_live_51Q84WcGCcu8ObJFY0fNYaQ6FCoHaqTH2kSHjYwEx16LYj0zSm8GfOb1Z0C3KGY9h2pALgJX34GZBifVfI9pIaULT007Y6HQceA"

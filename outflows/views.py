@@ -2,7 +2,7 @@ from urllib import request
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView
 
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.contrib import messages
 from companies.models import CompanyUser
@@ -10,6 +10,13 @@ from products.models import Product
 from core import metrics
 from . import models
 from . import forms
+
+import stripe
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+from .models import Outflow, Product
 
 from mixins import CompanyFilterMixin, PermissionsCreateMixin
 
@@ -132,4 +139,3 @@ class OutflowDetail(LoginRequiredMixin, CompanyFilterMixin, PermissionRequiredMi
     template_name = 'outflow_detail.html'
     context_object_name = 'outflows'
     permission_required = 'outflows.view_outflow'
-

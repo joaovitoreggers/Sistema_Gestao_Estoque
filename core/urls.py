@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('employees.urls')),
     path('', include('services.urls')),
     path('', include('serviceprovision.urls')),
-    path('', include('pyament_methods.urls')),
+  #  path('', include('pyament_methods.urls')),
 ]
