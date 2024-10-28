@@ -1,3 +1,6 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from decimal import Decimal
 from django.db import models
 from companies.models import Company
 from products.models import Product
@@ -101,3 +104,22 @@ class OutflowProduct(models.Model):
 
     def __str__(self):
         return f'{self.product.title} - {self.quantity}'
+
+
+class SalesCounter(models.Model):
+    total_sales = models.PositiveIntegerField(default=0, verbose_name="Total de Vendas")
+
+    def __str__(self):
+        return f'Total de Vendas: {self.total_sales}'
+
+    @property
+    def calculate_fee(self):
+        # Cada venda representa 50 centavos, então multiplica por 0.5
+        return self.total_sales * 0.5
+
+@receiver(post_save, sender=Outflow)
+def increment_sales_counter(sender, instance, created, **kwargs):
+    if created:
+        counter, _ = SalesCounter.objects.get_or_create(pk=1)
+        counter.total_sales += 1
+        counter.save()
