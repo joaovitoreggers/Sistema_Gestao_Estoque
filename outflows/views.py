@@ -14,9 +14,9 @@ from . import forms
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
-from .models import Outflow, Product
+from django.shortcuts import redirect
+from .models import SalesCounter
+
 
 from mixins import CompanyFilterMixin, PermissionsCreateMixin
 
@@ -139,3 +139,36 @@ class OutflowDetail(LoginRequiredMixin, CompanyFilterMixin, PermissionRequiredMi
     template_name = 'outflow_detail.html'
     context_object_name = 'outflows'
     permission_required = 'outflows.view_outflow'
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+import logging
+
+def create_charge(request):
+    counter = SalesCounter.objects.first()
+    if counter:
+        amount = int(counter.calculate_fee * 100)
+        logging.debug(f"Calculando taxa: {amount}")  # Adicione esta linha para debug
+
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'brl',
+                    'product_data': {
+                        'name': 'Cobrança de Taxa por Vendas',
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri('/success/'),
+            cancel_url=request.build_absolute_uri('/cancel/'),
+        )
+        
+        return render(request, 'payment.html', {'session_id': session.id, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
+    else:
+        return JsonResponse({'error': 'Nenhuma venda registrada'})
